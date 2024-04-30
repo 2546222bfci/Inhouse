@@ -1,10 +1,11 @@
 @smoke
   Feature: F02_SignIn | SignIn functionality
+
   Background:
     Given User is on the login page
 
   Scenario: User sign in with valid credentials
-    When User enters valid "admin@test.com" and "admin123"
+    When User enters valid "test.m@test.com" and "test123"
     And clicks on the login button
     Then user should be redirected to the home page
 

@@ -1,15 +1,14 @@
 package org.example.StepDefs;
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.example.Pages.P03_OrderProcess;
-
 import static org.example.StepDefs.Hooks.driver;
 
 public class D03_OrderProcess {
     P03_OrderProcess p03_OrderProcess=new P03_OrderProcess(driver);
+
     @Given("Navigate the website home page")
     public void NavigateTheHomePage(){
         p03_OrderProcess.navigateToHomePage();
@@ -47,7 +46,7 @@ public class D03_OrderProcess {
     @Then("the customer be in shipping page to fill the shipping address")
     public void theCustomerBeInShippingPageToFillTheShippingAddress() {
 
-        p03_OrderProcess.shippingFormTitle();
+     p03_OrderProcess.shippingFormTitle();
     }*/
 
 
@@ -84,6 +83,11 @@ public class D03_OrderProcess {
         p03_OrderProcess.selectTabby();
 
     }
+
+    @And("Select mada")
+    public void selectMada() {
+        p03_OrderProcess.selectMada();
+    }
     @And("click on place order button")
     public void clickOnPlaceOrderButton() {
         p03_OrderProcess.tabbyPlaceOrder();
@@ -97,7 +101,7 @@ public class D03_OrderProcess {
 
     @And("add the {string} to my shopping cart")
     public void addTheToMyShoppingCart(String arg0) {
-        p03_OrderProcess.addToCartFromProductList();
+        p03_OrderProcess.addToCartFromProductPage();
     }
 
     @And("select cash on delivery method")
@@ -167,7 +171,6 @@ public class D03_OrderProcess {
 
     }
 
-
     @When("Select the Required attributes")
     public void selectTheRequiredAttributes() {
         p03_OrderProcess.selectAttributes();
@@ -188,7 +191,6 @@ public class D03_OrderProcess {
         p03_OrderProcess.selectAttributes();
     }
 
-
     @Then("find the price is {string}")
     public void findThePriceIs(String arg0) {
         p03_OrderProcess.checkPriceClassic(arg0);
@@ -197,8 +199,8 @@ public class D03_OrderProcess {
     @And("change the recycliner from classic to rocking")
     public void changeTheRecyclinerFromClassicToRocking() {
         p03_OrderProcess.selectRocking();
-    }
 
+    }
     @Then("the price must changed to {string}")
     public void thePriceMustChangedTo(String arg0) {
         p03_OrderProcess.changePrice(arg0);
@@ -207,4 +209,16 @@ public class D03_OrderProcess {
     @Then("make sure that the أمريكان بولو | كرسي استرخاء ، مخمل is added with its new price")
     public void makeSureThatTheProductIsAddedWithItsNewPrice() {
     }
+
+    @And("open all the products at the product list page that is opened and add to the cart")
+    public void openAllTheProductsAtTheProductListPageThatIsOpened() throws InterruptedException {
+        p03_OrderProcess.openProducts();
+    }
+
+    @And("add the product to my shopping cart")
+    public void addTheProductToMyShoppingCart() {
+        p03_OrderProcess.addToCartFromProductPage();
+    }
+
+
 }

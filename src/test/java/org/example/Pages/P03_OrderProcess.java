@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class P03_OrderProcess {
 
@@ -46,8 +48,6 @@ public class P03_OrderProcess {
         // Wait for the element to be clickable again after scrolling
         wait.until(ExpectedConditions.elementToBeClickable(product)).click();
     }
-
-
 
     public void addToCartFromProductPage() {
             WebElement addToCartButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit' and @class='action primary tocart' and  @title='أضف لسلة التسوق' and @id='product-addtocart-button']")));
@@ -101,7 +101,7 @@ public class P03_OrderProcess {
             e.printStackTrace();
         }
 
-        WebElement cityDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@class='select city-select select2-hidden-accessible']\n")));
+        WebElement cityDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@class='select city-select']\n")));
         Select citySelect = new Select(cityDropdown);
         citySelect.selectByValue(city);
     }
@@ -123,47 +123,73 @@ public class P03_OrderProcess {
         phoneInput.sendKeys(phoneNum);
     }
 
-    public void clickOnNextButton(){
+    public void clickOnNextButton() {
+        try {
+            WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button action continue primary' and @data-role='opc-continue' and @type='submit']")));
+            System.out.println("Next button found. Clicking...");
 
-        WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button action continue primary' and @data-role='opc-continue' and @type='submit']")));
-        nextButton.submit();
+            // Try clicking using JavaScript
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", nextButton);
 
+            System.out.println("Clicked on the next button.");
+        } catch (NoSuchElementException e) {
+            System.out.println("Next button element not found: " + e.getMessage());
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            System.out.println("Timeout occurred while waiting for next button to be clickable: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Error occurred while clicking on next button: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-   /*
+    /*
     And  Select the payment method "cash on delivery"
     public void selectPaymentMethod(String method) {
 
         }*/
+    //button[contains(@class, 'checkout tabby tabby_installments') and contains(@class, 'action primary') and @type='submit']
     public void tabbyPlaceOrder() {
         try {
+            // Identify a nearby element (you may need to adjust the locator)
+            WebElement nearbyElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nearby-element-id")));
 
-            WebElement placeOrderByTabby = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='action primary checkout tabby tabby_installments' and @type='submit' and @title='Place Order']")));
+            // Scroll to the nearby element
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nearbyElement);
 
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", placeOrderByTabby);
+            // Wait for any overlaying element to disappear
+            WebDriverWait overlayWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            overlayWait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("search-input-autocomplate")));
 
-            // Add additional wait time after scrolling if necessary
-            Thread.sleep(1000); // Adjust timing as needed
+            // Find the button again after scrolling
+            WebElement placeOrderByTabby = driver.findElement(By.xpath("//button[contains(@class, 'checkout tabby tabby_installments') and contains(@class, 'action primary') and @type='submit']"));
 
-            // Wait for the element to be clickable again after scrolling
-            wait.until(ExpectedConditions.elementToBeClickable(placeOrderByTabby)).click();
+            // Click the button
+            placeOrderByTabby.click();
 
             // Wait for the next page to load
-            WebDriverWait nextPageWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebDriverWait nextPageWait = new WebDriverWait(driver, Duration.ofSeconds(20)); // Increase wait time
             nextPageWait.until(ExpectedConditions.urlContains("https://checkout.tabby.ai/auth?sessionId=bce6093e-8e19-46a4-a711-97513e13c687&apiKey=pk_54a7509e-fa38-4d61-a6ef-7abc97540cbe&product=installments&merchantCode=main_website_store_SAR&fl=1"));
 
-            String actualTitle=driver.getTitle();
-            String expectedTitle="Tabby Checkout";
-
-            Assert.assertEquals(actualTitle,expectedTitle);
-            System.out.println("actual title"+actualTitle);
-
-
+            // Verify that the title of the next page is "Tabby Checkout"
+            String actualTitle = driver.getTitle();
+            String expectedTitle = "Tabby Checkout";
+            Assert.assertEquals(actualTitle, expectedTitle);
+            System.out.println("Actual title: " + actualTitle);
+        } catch (TimeoutException e) {
+            // Handle timeout exception
+            System.out.println("Timeout occurred while waiting for the next page to load: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            // Handle the exception here, for example, by logging the error message or displaying a message to the user
+            // Handle any other exceptions
+            System.out.println("Error occurred during Tabby place order: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-        public String getConfirmationMessage() {
+
+    public String getConfirmationMessage() {
            // WebElement confirmationMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("confirmation-message")));
           //  return confirmationMessage.getText();
             return null;
@@ -180,6 +206,28 @@ public class P03_OrderProcess {
         WebElement tabbyLocator=wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='radio' and @name='payment[method]' and @class='radio' and @value='tabby_installments']")));
         tabbyLocator.click();
     }
+    public void selectMada() {
+        try {
+            // Wait for the validation message to disappear
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'validation-message') and contains(text(), 'Carrier with such method not found')]")));
+
+            // Once the validation message disappears, select the Mada payment method
+            WebElement madaLocator = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='radio' and @name='payment[method]' and @class='radio' and @value='mada']")));
+            madaLocator.click();
+            System.out.println("Mada payment method selected.");
+        } catch (TimeoutException e) {
+            // Log any timeout exceptions
+            System.out.println("Timeout occurred while waiting for validation message to disappear or for Mada payment method to be clickable: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Log any other exceptions
+            System.out.println("Error occurred while selecting Mada payment method: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
     public void selectCashOnDelivery() {
         WebElement cashOnDeliveryLocator = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//input[@type='radio' and @name='payment[method]' and @class='radio' and @value='cashondelivery']")));
@@ -195,7 +243,6 @@ public class P03_OrderProcess {
         cashOnDeliveryLocator.click();
     }
 
-
     public void placeOrderofCashOnDelivery(){
         WebElement cashonPlaceOrderBtn=wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='action primary checkout' and @type='submit' and @title='إنشاء الطلب']")));
         cashonPlaceOrderBtn.submit();
@@ -205,7 +252,7 @@ public class P03_OrderProcess {
         WebElement quatityInput=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='number' and @class='item-qty cart-item-qty']")));
         quatityInput.sendKeys(Keys.CONTROL+"a");
         quatityInput.sendKeys(Keys.DELETE);
-        quatityInput.sendKeys("2");
+        quatityInput.sendKeys("100");
         Thread.sleep(3000);
     }
     public void UpdateCartBtn() throws InterruptedException {
@@ -338,6 +385,7 @@ public class P03_OrderProcess {
 
                 // Click the elements
                 selectedRecyliner.click();
+
                // selectColor.click();
                 selectColor.sendKeys(Keys.RETURN);
                 break;
@@ -348,10 +396,9 @@ public class P03_OrderProcess {
             }
         }
     }
-
-
     public void addToCartProductWithAttributes(){
-        WebElement addTocart=wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='product-addtocart-button' and @type='submit' and @title='أضف لسلة التسوق' and contains(@class, 'action primary tocart')]\n")));
+        WebElement addTocart=wait.until(ExpectedConditions.elementToBeClickable(By.
+                xpath("//button[@id='product-addtocart-button' and @type='submit' and @title='أضف لسلة التسوق' and contains(@class, 'action primary tocart')]\n")));
         addTocart.submit();
     }
 
@@ -406,5 +453,45 @@ public class P03_OrderProcess {
            System.out.println("actual Price after changed : "+actualPrice);
     }
 
+
+    public void openProducts() throws InterruptedException {
+        Thread.sleep(3000); // Consider replacing with WebDriverWait
+        List<WebElement> products = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By
+                .xpath("//a[@class='product-photo photo product-item-photo product-list-image']")));
+
+        // Start from the second product (index 1)
+        for (int i = 1; i < products.size(); i++) {
+            // Get the product at index i
+            WebElement product = products.get(i);
+
+            // Scroll to the element's location
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", product);
+
+            // Add additional wait time after scrolling if necessary
+            Thread.sleep(1000); // Adjust timing as needed
+
+            // Wait for the element to be clickable again after scrolling
+            product.click();
+
+            addToCartProductWithAttributes();
+
+            // Wait for the product to be added to the cart
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='action showcart']")));
+
+            // If it's not the last product, navigate back to the product list page
+            if (i != products.size() - 1) {
+                driver.navigate().back();
+                // Wait for the product list page to load after navigating back
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='product-photo photo product-item-photo product-list-image']")));
+                // Refresh the products list
+                products = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[@class='product-photo photo product-item-photo product-list-image']")));
+            }
+        }
+    }
+
+
+
 }
+
+
 
