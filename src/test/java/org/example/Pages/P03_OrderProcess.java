@@ -13,8 +13,8 @@ import java.util.List;
 
 public class P03_OrderProcess {
 
-        private WebDriver driver;
-        private Wait<WebDriver> wait;
+        private final WebDriver driver;
+        private final Wait<WebDriver> wait;
 
     public P03_OrderProcess(WebDriver driver) {
         this.driver = driver;
@@ -124,25 +124,12 @@ public class P03_OrderProcess {
     }
 
     public void clickOnNextButton() {
-        try {
-            WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button action continue primary' and @data-role='opc-continue' and @type='submit']")));
-            System.out.println("Next button found. Clicking...");
 
+           //  nextButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button action continue primary' and @data-role='opc-continue' and @type='submit']")));
+        WebElement nextButton=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='button action continue primary' and @data-role='opc-continue' and @type='submit']")));
             // Try clicking using JavaScript
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            executor.executeScript("arguments[0].click();", nextButton);
-
-            System.out.println("Clicked on the next button.");
-        } catch (NoSuchElementException e) {
-            System.out.println("Next button element not found: " + e.getMessage());
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            System.out.println("Timeout occurred while waiting for next button to be clickable: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Error occurred while clicking on next button: " + e.getMessage());
-            e.printStackTrace();
-        }
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nextButton);
+            nextButton.submit();
     }
 
     /*
@@ -151,26 +138,19 @@ public class P03_OrderProcess {
 
         }*/
     //button[contains(@class, 'checkout tabby tabby_installments') and contains(@class, 'action primary') and @type='submit']
+//button[@class='action primary checkout tabby tabby_installments' and @type='submit']
     public void tabbyPlaceOrder() {
         try {
-            // Identify a nearby element (you may need to adjust the locator)
-            WebElement nearbyElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nearby-element-id")));
 
-            // Scroll to the nearby element
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nearbyElement);
+            WebElement placeOrderByTabby = driver.findElement(By.xpath("//button[@class='action primary checkout tabby tabby_installments' and @type='submit']"));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", placeOrderByTabby);
+             placeOrderByTabby = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='action primary checkout tabby tabby_installments' and @type='submit']")));
 
-            // Wait for any overlaying element to disappear
-            WebDriverWait overlayWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            overlayWait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("search-input-autocomplate")));
-
-            // Find the button again after scrolling
-            WebElement placeOrderByTabby = driver.findElement(By.xpath("//button[contains(@class, 'checkout tabby tabby_installments') and contains(@class, 'action primary') and @type='submit']"));
-
-            // Click the button
             placeOrderByTabby.click();
 
-            // Wait for the next page to load
-            WebDriverWait nextPageWait = new WebDriverWait(driver, Duration.ofSeconds(20)); // Increase wait time
+
+            // Wait for the next page to load (increase wait time)
+            WebDriverWait nextPageWait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Increased wait time
             nextPageWait.until(ExpectedConditions.urlContains("https://checkout.tabby.ai/auth?sessionId=bce6093e-8e19-46a4-a711-97513e13c687&apiKey=pk_54a7509e-fa38-4d61-a6ef-7abc97540cbe&product=installments&merchantCode=main_website_store_SAR&fl=1"));
 
             // Verify that the title of the next page is "Tabby Checkout"
@@ -188,6 +168,7 @@ public class P03_OrderProcess {
             e.printStackTrace();
         }
     }
+
 
     public String getConfirmationMessage() {
            // WebElement confirmationMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("confirmation-message")));
@@ -232,14 +213,6 @@ public class P03_OrderProcess {
         WebElement cashOnDeliveryLocator = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//input[@type='radio' and @name='payment[method]' and @class='radio' and @value='cashondelivery']")));
 
-        // Scroll the element into view if needed
-        //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cashOnDeliveryLocator);
-
-        // Wait for the element to be clickable
-       // cashOnDeliveryLocator = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='radio' and @name='payment[method]' and @class='radio' and @value='cashondelivery']")));
-
-        // Click on the element
-       // cashOnDeliveryLocator.submit();
         cashOnDeliveryLocator.click();
     }
 
@@ -351,12 +324,10 @@ public class P03_OrderProcess {
     public void validationMessageDisplay()
     {
 
-
         String actualPageTitle=driver.getTitle();
         String expectedTitle="أثاث فاخر وعصري بتصميمات مميزة وجودة عالية | إن هاوس";
         Assert.assertEquals(actualPageTitle,expectedTitle);
         System.out.println("actualPageTitle : "+actualPageTitle);
-
 
         WebElement validationMessage=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-bind=\"html: $parent.prepareMessageForHtml(message.text)\"]\n")));
         boolean isDispalyed=validationMessage.isDisplayed();
@@ -396,6 +367,7 @@ public class P03_OrderProcess {
             }
         }
     }
+
     public void addToCartProductWithAttributes(){
         WebElement addTocart=wait.until(ExpectedConditions.elementToBeClickable(By.
                 xpath("//button[@id='product-addtocart-button' and @type='submit' and @title='أضف لسلة التسوق' and contains(@class, 'action primary tocart')]\n")));
@@ -474,7 +446,6 @@ public class P03_OrderProcess {
             product.click();
 
             addToCartProductWithAttributes();
-
             // Wait for the product to be added to the cart
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='action showcart']")));
 

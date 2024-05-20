@@ -84,7 +84,6 @@ Feature:Order Process without login
     And click on place order button
     Then Find a confirmation message for my order
 
-
     Examples:
       | email          | region          | city              | first_name | last_name | neighborhood | street_line | phone      |
       | test@gmail.com | المنطقة الشرقية | عين الدار الجديدة | test       | test      | test         | test        | 0123456789 |
@@ -122,12 +121,12 @@ Feature:Order Process without login
 
   Scenario Outline:Place an order for 100 Items
     Given Navigate the website home page
-    When search for "chair"
-    And  open all the products at the product list page that is opened and add to the cart
-    And  search for "غرفة"
-    And  open all the products at the product list page that is opened and add to the cart
-    And  search for "لباد"
-    And  open all the products at the product list page that is opened and add to the cart
+    When  search for "chair"
+    And   open all the products at the product list page that is opened and add to the cart
+    When  search for "غرفة"
+    And   open all the products at the product list page that is opened and add to the cart
+    When  search for "لباد"
+    And   open all the products at the product list page that is opened and add to the cart
     And   click on the icon cart
     And   proceed to checkout
     When  Enter Email "<email>"
@@ -135,10 +134,10 @@ Feature:Order Process without login
     And   select the city "<city>"
     And   Enter first name "<first_name>" and last name "<last_name>" and neighboord "<neighborhood>" and street line "<street_line>" and phone "<phone>"
     And   Click on Next Button
-    And   Select tabby
+    And   Select mada
     And   click on place order button
     Then  Find a confirmation message for my order
 
     Examples:
       | email          | region          | city              | first_name | last_name | neighborhood | street_line | phone      |
-      | test@gmail.com | المنطقة الشرقية | عين الدار الجديدة | test       | test      | test         | test        | 012 796 4006 |
+      | test@gmail.com | المنطقة الشرقية | عين الدار الجديدة | test       | test      | test         | test        | 0590913013 |

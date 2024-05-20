@@ -61,7 +61,7 @@ public class D02_SignInStpDef {
 
     @Then("user should be redirected to the home page")
     public void userShouldBeRedirectedToTheMyAccountPage() {
-            String expectedURL = "https://staging.inhouse.sa/ar/";
+            String expectedURL = "https://staging.inhouse.sa/ar/customer/account/";
             String redirectURL = driver.getCurrentUrl();
             Assert.assertEquals(redirectURL, expectedURL);
             //String pageTitle = driver.getTitle();

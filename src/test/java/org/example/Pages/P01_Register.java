@@ -45,14 +45,17 @@ public class P01_Register {
 
 
 
-    @FindBy(xpath = "//div[@class='success-msg']//span[contains(text(),'شكرا لك للتسجيل في Inhouse KSA.')]")
+    @FindBy(xpath = "//div[@data-bind=\"html: $parent.prepareMessageForHtml(message.text)\" and contains(text(), 'شكرا لك للتسجيل في Inhouse KSA.')]")
     public WebElement RegisterSuccessfulMessage;
-    @FindBy(xpath = "//div[@data-bind='html: $parent.prepareMessageForHtml(message.text)']")
+    @FindBy(xpath = "//div[@data-bind=\"html: $parent.prepareMessageForHtml(message.text)\" and contains(text(), 'هناك بالفعل حساب مع عنوان البريد الإلكتروني هذا')]")
     public WebElement ErrorMessage;
-    @FindBy(xpath = "//div[@data-bind='html: $parent.prepareMessageForHtml(message.text)']")
+    @FindBy(xpath = "//div[@for='firstname' and @generated='true' and @class='mage-error' and @id='firstname-error']")
     public WebElement validationFirstname;
 
     @FindBy(xpath = "//span[@class='base' and @data-ui-id='page-title-wrapper']")
     public WebElement signUp_pageTitle;
+
+    @FindBy(xpath = "//div[@id='password-confirmation-error']")
+    public WebElement mismatchPassword_validationMassege;
 
 }

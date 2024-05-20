@@ -30,17 +30,19 @@ public class D03_OrderProcess {
 
     @And("add the chair to my shopping cart")
     public void addTheChairToMyShoppingCart() {
-
         p03_OrderProcess.addToCartFromProductPage();
     }
+
     @And("click on the icon cart")
     public void clickOnTheIconCart() {
         p03_OrderProcess.openCartPoPuP();
     }
+
     @And("proceed to checkout")
     public void proceedToCheckout() {
         p03_OrderProcess.proceedToCheckout();
     }
+
     /*
     //Then the customer be in shipping page to fill the shipping address
     @Then("the customer be in shipping page to fill the shipping address")
