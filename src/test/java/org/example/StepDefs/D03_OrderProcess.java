@@ -168,9 +168,7 @@ public class D03_OrderProcess {
 
     @Then("product page is being open and validation message should dispaly")
     public void validationMessageShouldDispaly() {
-
         p03_OrderProcess.validationMessageDisplay();
-
     }
 
     @When("Select the Required attributes")
@@ -203,6 +201,7 @@ public class D03_OrderProcess {
         p03_OrderProcess.selectRocking();
 
     }
+
     @Then("the price must changed to {string}")
     public void thePriceMustChangedTo(String arg0) {
         p03_OrderProcess.changePrice(arg0);
@@ -221,6 +220,5 @@ public class D03_OrderProcess {
     public void addTheProductToMyShoppingCart() {
         p03_OrderProcess.addToCartFromProductPage();
     }
-
 
 }
