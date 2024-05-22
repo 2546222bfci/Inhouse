@@ -1,11 +1,8 @@
 package org.example.Pages;
 
 import org.apache.commons.io.FileUtils;
-import org.example.StepDefs.Hooks;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -15,16 +12,13 @@ import org.testng.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.function.Function;
 
-import static org.example.StepDefs.Hooks.driver;
-
-public class P01_Register {
+public class P01_SignUp {
 
    private final WebDriver driver;
    private final Wait<WebDriver> wait;
 
-    public P01_Register(WebDriver driver){
+    public P01_SignUp(WebDriver driver){
           this.driver = driver;
           this.wait=new FluentWait<>(driver)
                   .withTimeout(Duration.ofSeconds(30))

@@ -15,7 +15,7 @@
     Then user should see an error message
 
   Scenario: User sign in with incorrect password
-    When User enters valid email "test.m@test.com" and  enters invalid password "test123"
+    When User enters valid email "test.m@test.com" and  enters invalid password "test12"
     And  clicks on the login button
     Then user should see an error message
 

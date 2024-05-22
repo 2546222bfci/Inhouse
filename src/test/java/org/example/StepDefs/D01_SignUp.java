@@ -4,23 +4,15 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.example.Pages.P01_Register;
+import org.example.Pages.P01_SignUp;
 import org.example.Pages.P02_SignIn;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
-import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
+
 import static org.example.StepDefs.Hooks.driver;
-import org.apache.commons.io.FileUtils;
-public class D01_Register {
-    P01_Register p01_register=new P01_Register(driver);
+
+public class D01_SignUp {
+    P01_SignUp p01_register=new P01_SignUp(driver);
     P02_SignIn p02_SignIn=new P02_SignIn(driver);
     @Given("The user is on the signup page")
     public void theUserIsOnTheWebsiteSHomepage() {
