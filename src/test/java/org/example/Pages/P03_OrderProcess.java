@@ -460,6 +460,25 @@ public class P03_OrderProcess {
         }
     }
 
+    public void verifyTappyCheckoutPageTitle(){
+        String actualPageTitle=driver.getTitle();
+        String expectedPageTitle="Tabby Checkout";
+        Assert.assertEquals(actualPageTitle,expectedPageTitle);
+        System.out.println(actualPageTitle);
+        System.out.println(expectedPageTitle);
+
+
+    }
+
+    public void verifyMadaCheckoutPageTitle(){
+        String actualPageTitle=driver.getTitle();
+        String expectedPageTitle="In House | دفع";
+        Assert.assertEquals(actualPageTitle,expectedPageTitle);
+        System.out.println(actualPageTitle);
+        System.out.println(expectedPageTitle);
+
+
+    }
 
 
 }

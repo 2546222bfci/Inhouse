@@ -4,18 +4,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.example.Pages.P02_SignIn;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-
-import java.time.Duration;
 
 import static org.example.StepDefs.Hooks.driver;
 import static org.testng.Assert.assertEquals;
-public class D02_SignInStpDef {
+public class D02_SignIn {
+
     P02_SignIn p2_signIn = new P02_SignIn(driver);
+
     @Given("User is on the login page")
     public void userIsOnTheLoginPage() {
         p2_signIn.navigateToSignInPage();
@@ -61,6 +56,5 @@ public class D02_SignInStpDef {
        p2_signIn.verify_validationMessage_isDisplayed();
 
     }
-
 
 }

@@ -7,6 +7,7 @@ import org.example.Pages.P03_OrderProcess;
 import static org.example.StepDefs.Hooks.driver;
 
 public class D03_OrderProcess {
+
     P03_OrderProcess p03_OrderProcess=new P03_OrderProcess(driver);
 
     @Given("Navigate the website home page")
@@ -43,15 +44,6 @@ public class D03_OrderProcess {
         p03_OrderProcess.proceedToCheckout();
     }
 
-    /*
-    //Then the customer be in shipping page to fill the shipping address
-    @Then("the customer be in shipping page to fill the shipping address")
-    public void theCustomerBeInShippingPageToFillTheShippingAddress() {
-
-     p03_OrderProcess.shippingFormTitle();
-    }*/
-
-
     @When("Enter Email {string}")
     public void enterEmailAndPassword(String email) {
         p03_OrderProcess.enterShippingAddressEmailPass(email);
@@ -77,28 +69,19 @@ public class D03_OrderProcess {
         p03_OrderProcess.clickOnNextButton();
     }
 
-    /*@And("Select the payment method {string}")
-    public void selectThePaymentMethod(String arg0) {
-    }*/
     @And("Select tabby")
     public void selectTabby() {
         p03_OrderProcess.selectTabby();
-
     }
 
     @And("Select mada")
     public void selectMada() {
         p03_OrderProcess.selectMada();
     }
+
     @And("click on place order button")
     public void clickOnPlaceOrderButton() {
         p03_OrderProcess.tabbyPlaceOrder();
-
-    }
-
-    @Then("Find a confirmation message for my order")
-    public void findAConfirmationMessageForMyOrder() {
-
     }
 
     @And("add the {string} to my shopping cart")
@@ -221,4 +204,14 @@ public class D03_OrderProcess {
         p03_OrderProcess.addToCartFromProductPage();
     }
 
+    @Then("redrict to Tabby checkout page")
+    public void redrictToTabbyPaymentAuthentication() {
+        p03_OrderProcess.verifyTappyCheckoutPageTitle();
+
+    }
+
+    @Then("redrict to Mada checkout page")
+    public void redrictToMadaCheckoutPage() {
+         p03_OrderProcess.verifyMadaCheckoutPageTitle();
+    }
 }

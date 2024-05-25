@@ -15,7 +15,7 @@ Feature:Order Process without login
     And   Click on Next Button
     And   Select tabby
     And   click on place order button
-    Then  Find a confirmation message for my order
+    Then  redrict to Tabby checkout page
 
     Examples:
       | email          | region          | city              | first_name | last_name | neighborhood | street_line | phone      |
@@ -97,7 +97,7 @@ Feature:Order Process without login
     Then  the product page should open
     And   find the selected color attribute applied on the product page
 
-  Scenario:place order for product with required attribute like color or recyliner type or  others attribute
+  Scenario:Add product to the cart  with required attributes like color or recyliner type or  others attribute from the product page
     Given navigate any category to be in the product list page
     When  adding أمريكان بولو | كرسي استرخاء ، مخمل to the cart
     Then product page is being open and validation message should dispaly
@@ -123,6 +123,8 @@ Feature:Order Process without login
     Given Navigate the website home page
     When  search for "chair"
     And   open all the products at the product list page that is opened and add to the cart
+    When Select the Required attributes
+
     When  search for "غرفة"
     And   open all the products at the product list page that is opened and add to the cart
     When  search for "لباد"
@@ -136,7 +138,7 @@ Feature:Order Process without login
     And   Click on Next Button
     And   Select mada
     And   click on place order button
-    Then  Find a confirmation message for my order
+    Then  redrict to Mada checkout page
 
     Examples:
       | email          | region          | city              | first_name | last_name | neighborhood | street_line | phone      |
